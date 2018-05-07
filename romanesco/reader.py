@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import csv
 
 import numpy as np
 import tensorflow as tf
@@ -17,7 +18,9 @@ def read_words(filename: str):
         indicated by <eos> (end of sentence).
     """
     with tf.gfile.GFile(filename) as f:
-        return f.read().replace("\n", " " + C.EOS + " ").split()
+        reader = csv.reader(f, dialect="unix")
+        for score, comment in reader:
+            yield from comment.replace("\n", " " + C.EOS + " ").split()
 
 
 def read(filename: str, vocab):
@@ -80,7 +83,9 @@ def iterate(raw_data, batch_size: int, num_steps: int):
     for i in range(num_batches_in_epoch):
         s = i * num_steps # start
         e = s + num_steps # end
-        yield data[:, s : e], data[:, s + 1 : e + 1]
+
+        # TODO yield weights
+        yield data[:, s: e], data[:, s + 1: e + 1]
 
         # ( [[the cat  ],  [[cat   sits],
         #    [the mat  ],   [mat   and ],

@@ -2,9 +2,11 @@
 
 from setuptools import setup
 
+
 def readme():
     with open('README.md') as f:
         return f.read()
+
 
 setup(name='romanesco',
     version='0.1',
@@ -13,9 +15,10 @@ setup(name='romanesco',
     author='Samuel Läubli',
     author_email='laeubli@cl.uzh.ch',
     license='LGPL',
-    packages=['romanesco'],
+    packages=['romanesco', 'processing'],
     scripts=['bin/romanesco'],
     install_requires = [
         'numpy',
-        'tensorflow-gpu'
+        'tensorflow-gpu',
+        'mosestokenizer'
     ])
